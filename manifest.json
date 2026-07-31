@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Audio Arbiter",
+  "version": "0.1.0",
+  "description": "Gently ducks music videos while another YouTube video is speaking.",
+  "minimum_chrome_version": "102",
+  "permissions": [
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "YouTube Audio Arbiter",
+    "default_popup": "popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "core.js",
+        "content/controller.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

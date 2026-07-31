@@ -1,0 +1,214 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #111216;
+  color: #f7f7f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 340px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(128, 92, 255, 0.18), transparent 38%),
+    #111216;
+}
+
+main {
+  padding: 16px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 14px;
+}
+
+.mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #7657ff, #a66cff);
+  box-shadow: 0 7px 24px rgba(112, 73, 255, 0.3);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+header p {
+  margin: 2px 0 0;
+  color: #a9aab3;
+  font-size: 11px;
+}
+
+.panel {
+  margin-top: 10px;
+  padding: 13px;
+  border: 1px solid #2b2d35;
+  border-radius: 13px;
+  background: rgba(27, 28, 34, 0.92);
+}
+
+.enable-row,
+.section-heading,
+label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.enable-row strong,
+.section-heading > span:first-child,
+label > span:first-child {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.enable-row div > span {
+  display: block;
+  margin-top: 3px;
+  color: #92949e;
+  font-size: 10px;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switch span {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  border-radius: 99px;
+  background: #454751;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.switch span::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  content: "";
+  transition: transform 150ms ease;
+}
+
+.switch input:checked + span {
+  background: #8062ff;
+}
+
+.switch input:checked + span::after {
+  transform: translateX(16px);
+}
+
+.switch input:focus-visible + span,
+input[type="range"]:focus-visible,
+select:focus-visible {
+  outline: 2px solid #a995ff;
+  outline-offset: 2px;
+}
+
+.settings-panel label:not(:first-child) {
+  margin-top: 15px;
+}
+
+output {
+  color: #bbaeff;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 4px;
+  margin: 11px 0 4px;
+  accent-color: #8768ff;
+}
+
+.hint {
+  margin: 5px 0 0;
+  color: #92949e;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.badge {
+  padding: 4px 7px;
+  border-radius: 99px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge.music {
+  background: rgba(127, 96, 255, 0.2);
+  color: #c7bbff;
+}
+
+.badge.non-music {
+  background: rgba(68, 194, 142, 0.16);
+  color: #7ee2b8;
+}
+
+.badge.neutral {
+  background: #30313a;
+  color: #b8bac3;
+}
+
+.video-title {
+  overflow: hidden;
+  margin: 10px 0 0;
+  color: #e6e6e9;
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.current-panel label {
+  margin-top: 12px;
+}
+
+select {
+  min-width: 112px;
+  padding: 6px 8px;
+  border: 1px solid #41434d;
+  border-radius: 8px;
+  background: #24262d;
+  color: #f5f5f6;
+  font: inherit;
+  font-size: 11px;
+}
+
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.save-status {
+  min-height: 14px;
+  margin: 9px 2px 0;
+  color: #9e8aff;
+  font-size: 10px;
+  text-align: right;
+}

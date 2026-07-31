@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTube Audio Arbiter</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="../core.js" defer></script>
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="mark" aria-hidden="true">♪</div>
+        <div>
+          <h1>Audio Arbiter</h1>
+          <p>Relative volume ducking for YouTube</p>
+        </div>
+      </header>
+
+      <section class="panel enable-row">
+        <div>
+          <strong>Automatic ducking</strong>
+          <span id="enabled-description">Off until you enable it</span>
+        </div>
+        <label class="switch">
+          <input id="enabled" type="checkbox" aria-label="Enable automatic ducking">
+          <span></span>
+        </label>
+      </section>
+
+      <section class="panel settings-panel">
+        <label for="duck-ratio">
+          <span>Duck music to</span>
+          <output id="duck-ratio-output" for="duck-ratio">20%</output>
+        </label>
+        <input id="duck-ratio" type="range" min="0" max="100" step="5" value="20">
+        <p id="relative-example" class="hint">30% becomes 6%, then returns to 30%.</p>
+
+        <label for="fade-ms">
+          <span>Fade duration</span>
+          <output id="fade-ms-output" for="fade-ms">600 ms</output>
+        </label>
+        <input id="fade-ms" type="range" min="100" max="3000" step="100" value="600">
+      </section>
+
+      <section class="panel current-panel">
+        <div class="section-heading">
+          <span>Current video</span>
+          <span id="classification-badge" class="badge neutral">No video</span>
+        </div>
+        <p id="video-title" class="video-title">Open a YouTube video to classify it.</p>
+        <p id="classification-detail" class="hint"></p>
+        <label for="override">
+          <span>Classification</span>
+          <select id="override" disabled>
+            <option value="auto">Auto</option>
+            <option value="music">Music</option>
+            <option value="nonMusic">Non-music</option>
+          </select>
+        </label>
+      </section>
+
+      <p id="save-status" class="save-status" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>
