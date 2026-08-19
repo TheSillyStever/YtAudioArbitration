@@ -9,6 +9,7 @@ const {
   KINDS,
   classifySignals,
   computeDuckPlan,
+  hasPlaybackStarted,
   interpolateVolume,
   normalizeSettings
 } = core;
@@ -65,6 +66,24 @@ test("unknown defaults to effective non-music", () => {
   assert.equal(result.source, "unknown-default");
 });
 
+test("an unstarted YouTube player is not confirmed by paused=false alone", () => {
+  assert.equal(hasPlaybackStarted({
+    paused: false,
+    currentTime: 0,
+    readyState: 0
+  }), false);
+  assert.equal(hasPlaybackStarted({
+    paused: false,
+    currentTime: 0,
+    readyState: 2
+  }), true);
+  assert.equal(hasPlaybackStarted({
+    paused: true,
+    currentTime: 1,
+    readyState: 4
+  }), true);
+});
+
 test("only audible non-music playback triggers music ducking", () => {
   const states = [
     {
@@ -98,7 +117,7 @@ test("only audible non-music playback triggers music ducking", () => {
   ]);
 });
 
-test("muted, zero-volume, paused, and disabled triggers do not duck", () => {
+test("muted, zero-volume, unconfirmed, paused, and disabled triggers do not duck", () => {
   for (const trigger of [
     { playing: true, muted: true, volume: 1 },
     { playing: true, muted: false, volume: 0 },

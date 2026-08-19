@@ -102,6 +102,15 @@
     );
   }
 
+  function hasPlaybackStarted(state) {
+    return Boolean(
+      state && (
+        Number(state.currentTime) > 0 ||
+        (state.paused === false && Number(state.readyState) >= 2)
+      )
+    );
+  }
+
   function computeDuckPlan(states, enabled) {
     const safeStates = Array.isArray(states) ? states : [];
     const triggerActive = Boolean(enabled) && safeStates.some(isAudibleNonMusic);
@@ -132,6 +141,7 @@
     overrideStorageKey,
     normalizeOverride,
     classifySignals,
+    hasPlaybackStarted,
     isAudibleNonMusic,
     computeDuckPlan,
     smoothstep,

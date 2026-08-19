@@ -5,6 +5,7 @@
     DEFAULT_SETTINGS,
     KINDS,
     clamp,
+    hasPlaybackStarted,
     interpolateVolume,
     normalizeSettings,
     overrideStorageKey
@@ -13,6 +14,7 @@
   let settings = DEFAULT_SETTINGS;
   let classification = unknownClassification();
   let video = null;
+  let playbackConfirmed = false;
   let detachVideoListeners = null;
   let fadeTimer = null;
   let fadeToken = 0;
@@ -125,23 +127,37 @@
 
     video = nextVideo || null;
     if (!video) {
+      playbackConfirmed = false;
       observedVolume = null;
       observeBrieflyForVideo();
       return;
     }
 
     stopRebindObserver();
+    playbackConfirmed = hasPlaybackStarted(video);
     observedVolume = video.volume;
-    const onPlaybackState = () => markStateDirty();
+    const onPlaying = () => {
+      playbackConfirmed = true;
+      markStateDirty();
+    };
+    const onPlaybackStopped = () => markStateDirty();
+    const onMediaReset = () => {
+      playbackConfirmed = false;
+      markStateDirty();
+    };
     const onVolumeChange = handleVolumeChange;
-    video.addEventListener("play", onPlaybackState);
-    video.addEventListener("pause", onPlaybackState);
-    video.addEventListener("ended", onPlaybackState);
+    video.addEventListener("playing", onPlaying);
+    video.addEventListener("pause", onPlaybackStopped);
+    video.addEventListener("ended", onPlaybackStopped);
+    video.addEventListener("loadstart", onMediaReset);
+    video.addEventListener("emptied", onMediaReset);
     video.addEventListener("volumechange", onVolumeChange);
     detachVideoListeners = () => {
-      video?.removeEventListener("play", onPlaybackState);
-      video?.removeEventListener("pause", onPlaybackState);
-      video?.removeEventListener("ended", onPlaybackState);
+      video?.removeEventListener("playing", onPlaying);
+      video?.removeEventListener("pause", onPlaybackStopped);
+      video?.removeEventListener("ended", onPlaybackStopped);
+      video?.removeEventListener("loadstart", onMediaReset);
+      video?.removeEventListener("emptied", onMediaReset);
       video?.removeEventListener("volumechange", onVolumeChange);
     };
 
@@ -369,7 +385,12 @@
       detectedKind: classification.detectedKind,
       effectiveKind: classification.effectiveKind,
       classificationSource: classification.source,
-      playing: Boolean(activeVideo && !activeVideo.paused && !activeVideo.ended),
+      playing: Boolean(
+        activeVideo &&
+        playbackConfirmed &&
+        !activeVideo.paused &&
+        !activeVideo.ended
+      ),
       muted: Boolean(activeVideo?.muted),
       volume: activeVideo ? activeVideo.volume : 0,
       baseVolume,

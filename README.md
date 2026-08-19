@@ -37,7 +37,9 @@ history is not stored.
 ## Resource behavior
 
 - The service worker reconstructs state only after playback, navigation,
-  settings, or tab lifecycle events and is allowed to sleep while idle.
+  settings, or tab lifecycle events and is allowed to sleep while idle. A
+  loaded or autoplay-blocked player does not count until its media element
+  confirms that playback can actually proceed.
 - There is no permanent tab registry, heartbeat, audio graph, or polling loop.
 - A 50 ms timer exists only during a 100-3000 ms volume fade.
 - One session-only number remembers the last genuine music baseline to prevent
